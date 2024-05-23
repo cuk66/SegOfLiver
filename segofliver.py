@@ -4,7 +4,7 @@ from PIL import Image
 import tensorflow as tf
 
 # Загрузка предобученной модели
-model = tf.keras.models.load_model('deeplab.h5', compile=0)
+model = tf.keras.models.load_model('deeplab_900.h5', compile=False) #, compile=False
 
 def load_image(label):
     uploaded_file = st.file_uploader(label=label)
@@ -32,9 +32,9 @@ if input_image is not None:
     result = st.button('Сегментация печени')
     if result:
         st.write('Результаты сегментации')
-        input_image_batch = np.expand_dims(input_image, axis=0)  # Добавляем размерность пакета
+        input_image_batch = np.expand_dims(input_image, axis=0)  
         predicted_mask = model.predict(input_image_batch, verbose=1)
-        predicted_mask = np.squeeze(predicted_mask, axis=0)  # Убираем размерность пакета
+        predicted_mask = np.squeeze(predicted_mask, axis=0)  
         
         # Отображение предсказанной маски
         st.image(predicted_mask, caption='Сегментированное изображение', use_column_width=True)
